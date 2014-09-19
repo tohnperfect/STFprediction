@@ -1,5 +1,5 @@
 %list files
-working_folder='';%%%path to the folder that contains images
+working_folder='';%%%path to the folder that contains images e.g. '/home/localadmin/dataset/'
 list=dir(strcat(working_folder,'images/')); 
 mkdir('features');
 
