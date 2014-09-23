@@ -79,6 +79,24 @@ with open('CategoriserCOV.pik','rb') as f:
 
 def newRange(val,newMin,newMax,oldMin=0,oldMax=1):
     return (newMax-newMin)/(oldMax-oldMin)*(val-oldMax)+newMax
+    
+def padded_image(img_lab):
+    height,width,channel=numpy.shape(img_lab)
+    
+    padded_img_lab=numpy.zeros(shape=(height+20,width+20,channel))
+
+    padded_img_lab[10:-10,10:-10,:]=img_lab
+    padded_img_lab[10:-10,:10,:]=img_lab[:,9::-1,:]
+    padded_img_lab[10:-10,-10:,:]=img_lab[:,:-11:-1,:]
+    padded_img_lab[:10,10:-10,:]=img_lab[9::-1,:,:]
+    padded_img_lab[-10:,10:-10,:]=img_lab[:-11:-1,:,:]
+    
+    padded_img_lab[:10,:10,:]=img_lab[9::-1,9::-1,:]
+    padded_img_lab[:10,-10:,:]=img_lab[9::-1,:-11:-1,:]
+    padded_img_lab[-10:,:10,:]=img_lab[:-11:-1,9::-1,:]
+    padded_img_lab[-10:,-10:,:]=img_lab[:-11:-1,:-11:-1,:]
+    
+    return padded_img_lab
 
 def predictIMG(filen):    
     window_size=21    
@@ -111,14 +129,17 @@ def predictIMG(filen):
     alpha=1
     ILP=ILP**alpha
     
-    predicted_imgILP=numpy.zeros(shape=numpy.shape(imgtest))    
+    predicted_imgILP=numpy.zeros(shape=numpy.shape(imgtest))  
+    
+    ##pad image
+    img_lab=padded_image(img_lab)
  
-    for c in range(0,width-(window_size)):
-        for r in range(0,height-(window_size)):
+    for c in range(0,width-(window_size)+20):
+        for r in range(0,height-(window_size)+20):
 
             
-            img_c=c+10
-            img_r=r+10
+            img_c=c
+            img_r=r
  
             predict=numpy.zeros(shape=(len(tree),num_class))
             for t in range(len(tree)):
