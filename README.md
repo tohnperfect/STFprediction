@@ -6,6 +6,8 @@ In order to use the scripts:
 (0) Download this repository
  
 (1) Install Deep Neural Network Script from http://www.robots.ox.ac.uk/~vgg/software/deep_eval/
+    
+    * you might interesting in this link https://software.intel.com/en-us/intel-education-offerings, which allows you to download and install MKL free academic licence
 
 (2). Put extractCNN.m from this repository in the deep eval installation folder.
 
